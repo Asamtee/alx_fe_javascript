@@ -141,14 +141,38 @@ async function syncQuotes() {
     if (!response.ok) throw new Error("Failed to fetch data from server");
     const serverQuotes = await response.json();
 
-    // Check for conflicts and resolve
+    //simple conflict resolution 
     if (serverQuotes.length > 0) {
-      // Simple conflict resolution: prioritize server data
+  // Display a notification asking the user to resolve the conflict manually
+  document.getElementById('notification').innerText = 'Conflict detected! Please resolve manually.';
+
+  // Provide buttons for manual conflict resolution
+  document.getElementById('conflict-resolution').innerHTML = `
+    <button onclick="resolveConflict('local')">Use local data</button>
+    <button onclick="resolveConflict('server')">Use server data</button>
+    <button onclick="resolveConflict('merge')">Merge changes</button>
+  `;
+
+  // Function to resolve conflicts manually
+  function resolveConflict(manualResolution) {
+    if (manualResolution === 'local') {
+      // Prioritize local data
+      quotes = localQuotes;
+    } else if (manualResolution === 'server') {
+      // Prioritize server data
       quotes = serverQuotes;
-      saveQuotes();
-      populateCategories();
-      alert("Quotes synced with server.");
+    } else if (manualResolution === 'merge') {
+      // Merge changes (implement merge logic here)
     }
+
+    // Save quotes and populate categories after manual resolution
+    saveQuotes();
+    populateCategories();
+
+    // Display a notification indicating the conflict has been resolved
+    document.getElementById('notification').innerText = 'Quotes synced with server!';
+  }
+}
 
     // Post local data to server
     await fetch(SERVER_URL, {
