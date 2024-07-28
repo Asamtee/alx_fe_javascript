@@ -147,7 +147,7 @@ async function syncQuotes() {
       quotes = serverQuotes;
       saveQuotes();
       populateCategories();
-      alert("Data updated from server.");
+      alert("Quotes synced with server.");
     }
 
     // Post local data to server
