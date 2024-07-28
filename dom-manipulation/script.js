@@ -136,6 +136,7 @@ function filterQuotes() {
 async function syncQuotes() {
   try {
     // Fetch data from server
+    function fetchQuotesFromServer(){}
     const response = await fetch(SERVER_URL);
     if (!response.ok) throw new Error("Failed to fetch data from server");
     const serverQuotes = await response.json();
